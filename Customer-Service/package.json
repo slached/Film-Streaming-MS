@@ -20,7 +20,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.1",
     "nodemon": "^3.1.7",
-    "userservice": "file:"
+    "userservice": "file:",
+    "winston": "^3.15.0"
   },
   "devDependencies": {
     "@types/colors": "^1.2.1",

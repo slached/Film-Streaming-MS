@@ -9,6 +9,7 @@ const { PORT } = require("./config");
 const { DatabaseConnection } = require("./database");
 const { CustomerController } = require("./api");
 const { initializeRedis } = require("./util");
+const { handleError } = require("./util/errors/ErrorHandler");
 
 const StartServer = async () => {
   const port = PORT || 5000;
@@ -28,8 +29,12 @@ const StartServer = async () => {
     .catch((err) => {
       console.log(err);
     });
+
   // Controller
   CustomerController(app);
+
+  // Error Handler
+  app.use(handleError);
 
   app
     .listen(port)

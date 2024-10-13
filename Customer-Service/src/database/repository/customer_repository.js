@@ -1,3 +1,4 @@
+const { BadContentError } = require("../../util/errors/app-errors");
 const Customer = require("../models/customer_model");
 class CustomerRepository {
   constructor() {}
@@ -8,8 +9,15 @@ class CustomerRepository {
 
   createCustomer = async (newCustomerBody) => {
     const newCustomer = new Customer(newCustomerBody);
-    await newCustomer.save();
-    return newCustomer;
+    const customer = await newCustomer
+      .save()
+      .then((customer) => customer)
+      .catch((err) => {
+        if (err.code === 11000) {
+          throw new BadContentError("Duplicated email in body.");
+        }
+      });
+    return customer;
   };
 
   findOneCustomerByEmail = async (email) => {

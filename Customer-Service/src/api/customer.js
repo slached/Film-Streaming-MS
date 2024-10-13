@@ -1,5 +1,6 @@
 const CustomerService = require("../service/customer_service");
 const { SignUpValidator, SignInValidator, Auth, MultipleUserCreateValidator, DeleteUserValidator } = require("./middlewares");
+const { STATUS_CODES } = require("../util/errors/app-errors");
 
 module.exports = async (app) => {
   const customerService = new CustomerService();
@@ -8,7 +9,7 @@ module.exports = async (app) => {
     try {
       // get customer from redis if on cache
       const customers = await customerService.GetCustomers();
-      res.status(200).json(customers);
+      res.status(STATUS_CODES.OK).json(customers);
     } catch (error) {
       next(error);
     }
@@ -19,7 +20,7 @@ module.exports = async (app) => {
       // first validate the body
       const signUpBody = req.body;
       const newCustomer = await customerService.SignUp(signUpBody);
-      res.status(200).json(newCustomer);
+      res.status(STATUS_CODES.OK).json(newCustomer);
     } catch (error) {
       next(error);
     }
@@ -29,7 +30,7 @@ module.exports = async (app) => {
     try {
       // first validate the body
       const signInBody = req.body;
-      res.status(200).json(await customerService.LogIn(signInBody));
+      res.status(STATUS_CODES.OK).json(await customerService.LogIn(signInBody));
     } catch (error) {
       next(error);
     }
@@ -39,7 +40,7 @@ module.exports = async (app) => {
     try {
       // first validate the body
       const customers = req.body;
-      res.status(200).json(await customerService.CreateMultipleCustomer(customers));
+      res.status(STATUS_CODES.OK).json(await customerService.CreateMultipleCustomer(customers));
     } catch (error) {
       next(error);
     }
@@ -49,7 +50,7 @@ module.exports = async (app) => {
     try {
       // first validate the body
       const body = req.body;
-      res.status(200).json(await customerService.DeleteCustomer(body));
+      res.status(STATUS_CODES.OK).json(await customerService.DeleteCustomer(body));
     } catch (error) {
       next(error);
     }

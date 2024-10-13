@@ -1,5 +1,6 @@
 const CustomerRepository = require("../database/repository/customer_repository");
 const { generateSalt, generateEncryptedData, verifyData, generateJWT, updateCache, setOrGetFromRedis } = require("../util");
+const { NotFoundError, BadContentError } = require('../util/errors/app-errors');
 
 class CustomerService {
   constructor() {
@@ -37,16 +38,16 @@ class CustomerService {
 
   LogIn = async (body) => {
     const customer = await this.CustomerRepository.findOneCustomerByEmail(body.email);
-    if (!customer) throw new Error("Customer Does Not Exists!");
+    if (!customer) throw new NotFoundError("Customer Does Not Exists!");
     const decryptPassword = await verifyData(body.password, customer.password);
-    if (!decryptPassword) throw new Error("Password incorrect!");
+    if (!decryptPassword) throw new BadContentError("Password incorrect!");
     const generatedToken = await generateJWT({ _id: customer._id, email: customer.email });
     return { message: `${customer.email} has logged in successfully.`, token: generatedToken };
   };
 
   DeleteCustomer = async (body) => {
     const deletedCustomer = await this.CustomerRepository.deleteCustomerByEmail(body.email);
-    if (!deletedCustomer) throw new Error("There is no customer founded by this email.");
+    if (!deletedCustomer) throw new NotFoundError("There is no customer founded by this email.");
     // update customers after delete
     await updateCache("customers", this.CustomerRepository.findAllCustomers);
     return { message: `${deletedCustomer?.email} has deleted successfully.` };
