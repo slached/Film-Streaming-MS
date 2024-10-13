@@ -3,7 +3,7 @@ class CustomerRepository {
   constructor() {}
 
   findAllCustomers = async () => {
-    return await Customer.find();
+    return { count: await Customer.countDocuments(), customers: await Customer.find() };
   };
 
   createCustomer = async (newCustomerBody) => {
@@ -14,6 +14,10 @@ class CustomerRepository {
 
   findOneCustomerByEmail = async (email) => {
     return await Customer.findOne({ email: email });
+  };
+
+  deleteCustomerByEmail = async (email) => {
+    return await Customer.findOneAndDelete({ email: email });
   };
 }
 

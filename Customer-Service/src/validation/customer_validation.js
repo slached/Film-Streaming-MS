@@ -100,4 +100,24 @@ const signInSchema = Joi.object({
   }),
 }).required();
 
-module.exports = { signUpSchema, signInSchema };
+const multipleUserSchema = Joi.array().items(signUpSchema).required().messages({
+  "array.empty": "Data required",
+});
+
+const deleteUserSchema = Joi.object({
+  email: Joi.string().email().required().messages({
+    "string.empty": "Email is required",
+    "string.email": "Email must be valid",
+  }),
+})
+  .required()
+  .messages({
+    "string.empty": "Password is required",
+  });
+
+module.exports = {
+  signUpSchema,
+  signInSchema,
+  multipleUserSchema,
+  deleteUserSchema,
+};
