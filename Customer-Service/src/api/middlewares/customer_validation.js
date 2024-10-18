@@ -1,4 +1,10 @@
-const { signUpSchema, signInSchema, multipleUserSchema, deleteUserSchema } = require("../../validation/customer_validation");
+const {
+  signUpSchema,
+  signInSchema,
+  multipleUserSchema,
+  deleteUserSchema,
+  updateUserSchema,
+} = require("../../validation/customer_validation");
 
 // this validates the body according to validation
 // if there is an issue in body it's convert body to required shape
@@ -41,9 +47,18 @@ const deleteCustomerValidator = (req, res, next) => {
   next();
 };
 
+const updateCustomerValidator = (req, res, next) => {
+  const { error, value } = updateUserSchema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ error: error.details[0].message });
+  }
+  req.body = value;
+  next();
+};
 module.exports = {
   singUpValidator,
   singInValidator,
   multipleUserCreateValidator,
   deleteCustomerValidator,
+  updateCustomerValidator,
 };

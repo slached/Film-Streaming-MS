@@ -1,6 +1,1 @@
-{"level":"error","message":"Mon Oct 14 2024 02:51:36 GMT+0300 (GMT+03:00)-BadContentError","private":true}
-{"level":"error","message":"Mon Oct 14 2024 02:51:36 GMT+0300 (GMT+03:00)-BadContentError","private":true}
-{"level":"error","message":"Mon Oct 14 2024 02:51:37 GMT+0300 (GMT+03:00)-BadContentError","private":true}
-{"level":"error","message":"Mon Oct 14 2024 02:51:37 GMT+0300 (GMT+03:00)-BadContentError","private":true}
-{"level":"error","message":"Mon Oct 14 2024 02:51:38 GMT+0300 (GMT+03:00)-BadContentError","private":true}
-{"level":"error","message":"Mon Oct 14 2024 02:51:38 GMT+0300 (GMT+03:00)-BadContentError","private":true}
+{"level":"error","message":"Fri Oct 18 2024 17:23:31 GMT+0300 (GMT+03:00)-Bad Request Error-Duplicated email in body.","private":true}

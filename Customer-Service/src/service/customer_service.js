@@ -1,3 +1,4 @@
+const { Genders, User_Icons } = require("../constants/customer_const");
 const CustomerRepository = require("../database/repository/customer_repository");
 const { generateSalt, generateEncryptedData, verifyData, generateJWT, updateCache, setOrGetFromRedis } = require("../util");
 const { NotFoundError, BadContentError } = require("../util/errors/app-errors");
@@ -13,10 +14,28 @@ class CustomerService {
     return customers;
   };
 
+  GetCustomerById = async (id) => {
+    const customer = await this.CustomerRepository.findOneCustomerById(id);
+    if (!customer) throw new NotFoundError("This customer does not exists.");
+    return customer;
+  };
+
   SignUp = async (body) => {
     const salt = await generateSalt();
     const cryptPassword = await generateEncryptedData(body.password, salt);
     body.password = cryptPassword;
+
+    switch (body.gender) {
+      case Genders[1]:
+        body.profileImageUrl = User_Icons.male;
+        break;
+      case Genders[2]:
+        body.profileImageUrl = User_Icons.female;
+      default:
+        body.profileImageUrl = User_Icons.non;
+        break;
+    }
+
     const createNewCustomer = await this.CustomerRepository.createCustomer(body);
     // update customers after insertion
     await updateCache("customers", this.CustomerRepository.findAllCustomers);
@@ -33,7 +52,7 @@ class CustomerService {
 
     // update customers after insertion
     await updateCache("customers", this.CustomerRepository.findAllCustomers);
-    return { msg: `${customers.length} customer created.` };
+    return { msg: `${customers.length} customers created.` };
   };
 
   LogIn = async (body) => {
@@ -41,7 +60,8 @@ class CustomerService {
     if (!customer) throw new NotFoundError("Customer Does Not Exists!");
     const decryptPassword = await verifyData(body.password, customer.password);
     if (!decryptPassword) throw new BadContentError("Password incorrect!");
-    const generatedToken = await generateJWT({ _id: customer._id, email: customer.email });
+    const payload = { _id: customer._id, email: customer.email };
+    const generatedToken = await generateJWT(payload);
     return { message: `${customer.email} has logged in successfully.`, token: generatedToken };
   };
 
@@ -51,6 +71,17 @@ class CustomerService {
     // update customers after delete
     await updateCache("customers", this.CustomerRepository.findAllCustomers);
     return { message: `${deletedCustomer?.email} has deleted successfully.` };
+  };
+
+  UpdateCustomer = async (id, body) => {
+    const updatedCustomer = await this.CustomerRepository.updateCustomer(id, body);
+    // update customers after altered data
+    await updateCache("customers", this.CustomerRepository.findAllCustomers);
+    return { message: `${updatedCustomer?.email} has updated successfully.` };
+  };
+
+  UploadImageToS3 = async (user, body) => {
+    return user;
   };
 }
 module.exports = CustomerService;

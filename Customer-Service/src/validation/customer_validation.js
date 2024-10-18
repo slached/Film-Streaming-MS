@@ -1,4 +1,6 @@
 const Joi = require("joi");
+const { Roles, Languages, Genders } = require("../constants/customer_const");
+const date_fns = require("date-fns");
 
 const signUpSchema = Joi.object({
   email: Joi.string().email().required().messages({
@@ -20,6 +22,8 @@ const signUpSchema = Joi.object({
   }),
   profileImageUrl: Joi.string().optional(),
 
+  gender: Joi.string().default(Genders[0]),
+
   subscriptionPlan: Joi.object({
     planName: Joi.string().required().messages({
       "string.empty": "Plan name date required",
@@ -37,8 +41,8 @@ const signUpSchema = Joi.object({
     .default({
       planName: "new_customer",
       startDate: new Date(),
-      expiryDate: new Date(),
-      autoRenew: true,
+      expiryDate: date_fns.add(new Date(), { months: 1 }),
+      autoRenew: false,
     })
     .optional(),
 
@@ -73,11 +77,10 @@ const signUpSchema = Joi.object({
         "string.empty": "Roles required",
       })
     )
-    .default(["user"])
-    .required(),
+    .default([Roles[0]]),
 
   settings: Joi.object({
-    language: Joi.string().required().default("en").messages({
+    language: Joi.string().required().default(Languages[0]).messages({
       "string.empty": "Language required",
     }),
     preferredGenres: Joi.string().optional(),
@@ -115,9 +118,21 @@ const deleteUserSchema = Joi.object({
     "string.empty": "Password is required",
   });
 
+const updateUserSchema = Joi.object({
+  id: Joi.string().required().messages({
+    "string.empty": "id required",
+  }),
+  body: Joi.object().optional(),
+})
+  .required()
+  .messages({
+    "object.empty": "Update body required",
+  });
+
 module.exports = {
   signUpSchema,
   signInSchema,
   multipleUserSchema,
   deleteUserSchema,
+  updateUserSchema,
 };

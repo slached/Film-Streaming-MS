@@ -8,7 +8,7 @@ const CustomerSchema = new mongoose.Schema(
     lastName: String,
     dateOfBirth: Date,
     profileImageUrl: String,
-
+    gender: String,
     subscriptionPlan: {
       planName: String,
       startDate: Date,

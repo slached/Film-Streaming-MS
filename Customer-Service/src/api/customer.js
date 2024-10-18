@@ -1,5 +1,12 @@
 const CustomerService = require("../service/customer_service");
-const { SignUpValidator, SignInValidator, Auth, MultipleUserCreateValidator, DeleteUserValidator } = require("./middlewares");
+const {
+  SignUpValidator,
+  SignInValidator,
+  Auth,
+  MultipleUserCreateValidator,
+  DeleteUserValidator,
+  UpdateUserValidator,
+} = require("./middlewares");
 const { STATUS_CODES } = require("../util/errors/app-errors");
 
 module.exports = async (app) => {
@@ -7,9 +14,18 @@ module.exports = async (app) => {
   // get all customer information
   app.get("/", Auth, async (req, res, next) => {
     try {
-      // get customer from redis if on cache
       const customers = await customerService.GetCustomers();
       res.status(STATUS_CODES.OK).json(customers);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.get("/:id", Auth, async (req, res, next) => {
+    try {
+      const id = req.params.id;
+      const customer = await customerService.GetCustomerById(id);
+      res.status(STATUS_CODES.OK).json(customer);
     } catch (error) {
       next(error);
     }
@@ -36,7 +52,7 @@ module.exports = async (app) => {
     }
   });
 
-  app.post("/createMultipleCustomer", MultipleUserCreateValidator, async (req, res, next) => {
+  app.post("/createMultipleCustomer", Auth, MultipleUserCreateValidator, async (req, res, next) => {
     try {
       // first validate the body
       const customers = req.body;
@@ -46,11 +62,31 @@ module.exports = async (app) => {
     }
   });
 
-  app.delete("/deleteCustomerByEmail", DeleteUserValidator, async (req, res, next) => {
+  app.put("/updateCustomer", Auth, UpdateUserValidator, async (req, res, next) => {
+    try {
+      // first validate the body
+      const { id, body } = req.body;
+      res.status(STATUS_CODES.OK).json(await customerService.UpdateCustomer(id, body));
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.delete("/deleteCustomerByEmail", Auth, DeleteUserValidator, async (req, res, next) => {
     try {
       // first validate the body
       const body = req.body;
       res.status(STATUS_CODES.OK).json(await customerService.DeleteCustomer(body));
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.post("/uploadProfileImage", Auth, async (req, res, next) => {
+    try {
+      // first validate the body
+      const user = req.user;
+      res.status(STATUS_CODES.OK).json(await customerService.UploadImageToS3(user, req.body));
     } catch (error) {
       next(error);
     }

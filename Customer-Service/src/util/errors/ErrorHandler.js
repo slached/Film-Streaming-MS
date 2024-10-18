@@ -12,7 +12,7 @@ const handleError = (err, req, res, next) => {
 
   loggedErrorTypes.forEach((loggedError) => {
     if (err instanceof loggedError) {
-      const errorParseForLog = `${loggedError.name}`;
+      const errorParseForLog = `${err.name}-${err.message}`;      
       logger.log({
         private: true,
         level: "error",

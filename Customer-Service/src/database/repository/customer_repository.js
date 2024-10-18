@@ -24,8 +24,24 @@ class CustomerRepository {
     return await Customer.findOne({ email: email });
   };
 
+  findOneCustomerById = async (id) => {
+    return await Customer.findOne({ _id: id })
+      .then((res) => res)
+      .catch((err) => {
+        throw new BadContentError(err.reason);
+      });
+  };
+
   deleteCustomerByEmail = async (email) => {
     return await Customer.findOneAndDelete({ email: email });
+  };
+
+  updateCustomer = async (id, body) => {
+    return await Customer.findOneAndUpdate({ _id: id }, body)
+      .then((res) => res)
+      .catch((err) => {
+        console.log(err);
+      });
   };
 }
 
