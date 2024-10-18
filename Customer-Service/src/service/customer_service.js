@@ -1,6 +1,6 @@
 const CustomerRepository = require("../database/repository/customer_repository");
 const { generateSalt, generateEncryptedData, verifyData, generateJWT, updateCache, setOrGetFromRedis } = require("../util");
-const { NotFoundError, BadContentError } = require('../util/errors/app-errors');
+const { NotFoundError, BadContentError } = require("../util/errors/app-errors");
 
 class CustomerService {
   constructor() {
