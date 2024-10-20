@@ -1,5 +1,6 @@
 const { Genders, User_Icons } = require("../constants/customer_const");
 const CustomerRepository = require("../database/repository/customer_repository");
+const { GetAllS3Data, UploadToS3 } = require("../drivers/s3");
 const { generateSalt, generateEncryptedData, verifyData, generateJWT, updateCache, setOrGetFromRedis } = require("../util");
 const { NotFoundError, BadContentError } = require("../util/errors/app-errors");
 
@@ -80,8 +81,12 @@ class CustomerService {
     return { message: `${updatedCustomer?.email} has updated successfully.` };
   };
 
-  UploadImageToS3 = async (user, body) => {
-    return user;
+  UploadImageToS3 = async (user, image) => {
+    return await UploadToS3(user._id, image.buffer, image.mimetype);
+  };
+
+  GetUserImageFromS3 = async (user) => {    
+    return await GetAllS3Data(user._id);
   };
 }
 module.exports = CustomerService;

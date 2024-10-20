@@ -46,12 +46,12 @@ const generateJWT = async (payload) => {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: "30d" });
 };
 
-const validateJWT = async (req) => {
+const validateJWT = async (req) => {  
   const token = req.get("Authorization");
-  try {
+  try {    
     req.user = jwt.verify(token, JWT_SECRET);
     return true;
-  } catch (error) {
+  } catch (error) {    
     return false;
   }
 };

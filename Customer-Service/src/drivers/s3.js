@@ -8,10 +8,6 @@ const s3 = new aws.S3({
     secretAccessKey: AWS_SECRET_ACCESS_KEY,
   },
   region: AWS_BUCKET_REGION,
-  params: {
-    ACL: "public-read",
-    Bucket: AWS_BUCKET_NAME,
-  },
 });
 
 module.exports.GetAllS3Data = async (folderLink) => {
@@ -39,5 +35,29 @@ module.exports.GetAllS3Data = async (folderLink) => {
     return mediaItems;
   } catch (error) {
     throw new BadContentError("Failed to fetch media from S3");
+  }
+};
+
+module.exports.UploadToS3 = async (userId, image, mimetype) => {
+  try {
+    const currentUserImages = await this.GetAllS3Data(userId);
+
+    const key = `${userId}/image_${currentUserImages.length + 1}.${mimetype.split("/")[1]}`;
+
+    const params = {
+      Bucket: AWS_BUCKET_NAME,
+      Key: key,
+      Body: image,
+    };
+
+    return s3
+      .upload(params)
+      .promise()
+      .then((res) => res)
+      .catch((err) => {
+        console.log(err.message);
+      });
+  } catch (error) {
+    throw new BadContentError(error.message);
   }
 };

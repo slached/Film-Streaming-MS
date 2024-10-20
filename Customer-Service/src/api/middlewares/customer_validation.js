@@ -4,6 +4,7 @@ const {
   multipleUserSchema,
   deleteUserSchema,
   updateUserSchema,
+  uploadToS3Schema,
 } = require("../../validation/customer_validation");
 
 // this validates the body according to validation
@@ -55,10 +56,22 @@ const updateCustomerValidator = (req, res, next) => {
   req.body = value;
   next();
 };
+
+const uploadS3Validator = (req, res, next) => {
+
+  const { error, value } = uploadToS3Schema.validate({ image: req?.file?.buffer });
+  if (error) {
+    return res.status(400).json({ error: error.details[0].message });
+  }
+  req.body = value;
+  next();
+};
+
 module.exports = {
   singUpValidator,
   singInValidator,
   multipleUserCreateValidator,
   deleteCustomerValidator,
   updateCustomerValidator,
+  uploadS3Validator,
 };

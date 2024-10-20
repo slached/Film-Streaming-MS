@@ -6,6 +6,8 @@ const {
   MultipleUserCreateValidator,
   DeleteUserValidator,
   UpdateUserValidator,
+  UploadS3Validator,
+  MulterSingle,
 } = require("./middlewares");
 const { STATUS_CODES } = require("../util/errors/app-errors");
 
@@ -13,7 +15,7 @@ module.exports = async (app) => {
   const customerService = new CustomerService();
   // get all customer information
   app.get("/", Auth, async (req, res, next) => {
-    try {
+    try {      
       const customers = await customerService.GetCustomers();
       res.status(STATUS_CODES.OK).json(customers);
     } catch (error) {
@@ -23,7 +25,7 @@ module.exports = async (app) => {
 
   app.get("/:id", Auth, async (req, res, next) => {
     try {
-      const id = req.params.id;
+      const id = req.params.id;      
       const customer = await customerService.GetCustomerById(id);
       res.status(STATUS_CODES.OK).json(customer);
     } catch (error) {
@@ -62,6 +64,26 @@ module.exports = async (app) => {
     }
   });
 
+  app.post("/uploadProfileImage", Auth, MulterSingle, UploadS3Validator, async (req, res, next) => {
+    try {      
+      // first validate the body
+      const user = req.user;
+      const image = req.file;
+      res.status(STATUS_CODES.OK).json(await customerService.UploadImageToS3(user, image));
+    } catch (error) {
+      next(error);
+    }
+  });
+
+    app.post("/getUploadedProfileImages", Auth, async (req, res, next) => {
+      try {
+        const user = req.user;
+        res.status(STATUS_CODES.OK).json(await customerService.GetUserImageFromS3(user));
+      } catch (error) {
+        next(error);
+      }
+    });
+
   app.put("/updateCustomer", Auth, UpdateUserValidator, async (req, res, next) => {
     try {
       // first validate the body
@@ -77,16 +99,6 @@ module.exports = async (app) => {
       // first validate the body
       const body = req.body;
       res.status(STATUS_CODES.OK).json(await customerService.DeleteCustomer(body));
-    } catch (error) {
-      next(error);
-    }
-  });
-
-  app.post("/uploadProfileImage", Auth, async (req, res, next) => {
-    try {
-      // first validate the body
-      const user = req.user;
-      res.status(STATUS_CODES.OK).json(await customerService.UploadImageToS3(user, req.body));
     } catch (error) {
       next(error);
     }

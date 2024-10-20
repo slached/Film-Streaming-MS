@@ -129,10 +129,22 @@ const updateUserSchema = Joi.object({
     "object.empty": "Update body required",
   });
 
+const uploadToS3Schema = Joi.object({
+  image: Joi.any()
+    .custom((value, helpers) => {
+      if (!Buffer.isBuffer(value)) {
+        return helpers.error("any.invalid");
+      }
+      return value;
+    })
+    .required(),
+}).required();
+
 module.exports = {
   signUpSchema,
   signInSchema,
   multipleUserSchema,
   deleteUserSchema,
   updateUserSchema,
+  uploadToS3Schema,
 };
