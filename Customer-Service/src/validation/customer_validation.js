@@ -138,7 +138,11 @@ const uploadToS3Schema = Joi.object({
       return value;
     })
     .required(),
-}).required();
+});
+
+const deleteAndInsertToWatchHistorySchema = Joi.object({
+  movieId: Joi.string().required(),
+});
 
 module.exports = {
   signUpSchema,
@@ -147,4 +151,5 @@ module.exports = {
   deleteUserSchema,
   updateUserSchema,
   uploadToS3Schema,
+  deleteAndInsertToWatchHistorySchema,
 };

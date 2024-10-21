@@ -1,0 +1,6 @@
+{"level":"error","message":"Mon Oct 21 2024 16:55:27 GMT+0300 (GMT+03:00)-Bad Request Error-E11000 duplicate key error collection: film-streaming.movie_details index: title_1 dup key: { title: \"The Dark Knight\" }","private":true}
+{"level":"error","message":"Mon Oct 21 2024 17:02:02 GMT+0300 (GMT+03:00)-Bad Request Error-Cast to ObjectId failed for value \"67164ee18a2cf6891285dd\" (type string) at path \"_id\" for model \"movie_details\"","private":true}
+{"level":"error","message":"Mon Oct 21 2024 17:02:10 GMT+0300 (GMT+03:00)-Bad Request Error-Cast to ObjectId failed for value \"67164ee18a2cf6891285dd8\" (type string) at path \"_id\" for model \"movie_details\"","private":true}
+{"level":"error","message":"Mon Oct 21 2024 17:04:43 GMT+0300 (GMT+03:00)-Bad Request Error-Cast to ObjectId failed for value \":id\" (type string) at path \"_id\" for model \"movie_details\"","private":true}
+{"level":"error","message":"Mon Oct 21 2024 17:04:43 GMT+0300 (GMT+03:00)-Bad Request Error-Cast to ObjectId failed for value \":id\" (type string) at path \"_id\" for model \"movie_details\"","private":true}
+{"level":"error","message":"Mon Oct 21 2024 17:11:37 GMT+0300 (GMT+03:00)-Bad Request Error-Cast to ObjectId failed for value \":id\" (type string) at path \"_id\" for model \"movie_details\"","private":true}

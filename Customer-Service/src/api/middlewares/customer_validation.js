@@ -5,6 +5,7 @@ const {
   deleteUserSchema,
   updateUserSchema,
   uploadToS3Schema,
+  deleteAndInsertToWatchHistorySchema,
 } = require("../../validation/customer_validation");
 
 // this validates the body according to validation
@@ -58,8 +59,16 @@ const updateCustomerValidator = (req, res, next) => {
 };
 
 const uploadS3Validator = (req, res, next) => {
-
   const { error, value } = uploadToS3Schema.validate({ image: req?.file?.buffer });
+  if (error) {
+    return res.status(400).json({ error: error.details[0].message });
+  }
+  req.body = value;
+  next();
+};
+
+const deleteAndInsertToWatchHistoryValidator = (req, res, next) => {
+  const { error, value } = deleteAndInsertToWatchHistorySchema.validate(req.body);
   if (error) {
     return res.status(400).json({ error: error.details[0].message });
   }
@@ -74,4 +83,5 @@ module.exports = {
   deleteCustomerValidator,
   updateCustomerValidator,
   uploadS3Validator,
+  deleteAndInsertToWatchHistoryValidator,
 };

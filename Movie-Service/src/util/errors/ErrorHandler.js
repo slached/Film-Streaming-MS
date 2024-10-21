@@ -8,12 +8,11 @@ const logger = winston.createLogger({
 });
 
 const handleError = (err, req, res, next) => {
-  
   const loggedErrorTypes = [InternalServerError, UnauthorizedError, BadContentError];
 
   loggedErrorTypes.forEach((loggedError) => {
     if (err instanceof loggedError) {
-      const errorParseForLog = `${err.name}-${err.message}`;
+      const errorParseForLog = `${err.name}-${err.message}`;      
       logger.log({
         private: true,
         level: "error",

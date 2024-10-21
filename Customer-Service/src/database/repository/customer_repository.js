@@ -40,7 +40,32 @@ class CustomerRepository {
     return await Customer.findOneAndUpdate({ _id: id }, body)
       .then((res) => res)
       .catch((err) => {
-        console.log(err);
+        throw new BadContentError(err.reason);
+      });
+  };
+
+  insertToWatchHistory = async (_id, newMovie) => {
+    return await Customer.updateOne({ _id: _id }, { $push: { watchHistory: newMovie } })
+      .then((res) => res)
+      .catch((err) => {
+        throw new BadContentError(err.reason);
+      });
+  };
+
+  findWatchHistoryMovieById = async (movieId) => {
+    return await Customer.find({ "watchHistory.movieId": movieId })
+      .then((res) => res)
+      .catch((err) => {
+        throw new BadContentError(err.reason);
+      });
+  };
+
+  removeFromWatchHistory = async (_id, movieId) => {
+    // this deletes all movies that belong to this movie id from customer
+    return await Customer.updateOne({ _id: _id }, { $pull: { watchHistory: { movieId: movieId } } })
+      .then((res) => res)
+      .catch((err) => {
+        throw new BadContentError(err.reason);
       });
   };
 }

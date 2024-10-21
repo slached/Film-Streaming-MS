@@ -92,3 +92,25 @@
 {"level":"error","message":"Sun Oct 20 2024 18:32:54 GMT+0300 (GMT+03:00)-Bad Request Error-BSONError: input must be a 24 character hex string, 12 byte Uint8Array, or an integer","private":true}
 {"level":"error","message":"Sun Oct 20 2024 18:34:10 GMT+0300 (GMT+03:00)-Bad Request Error-BSONError: input must be a 24 character hex string, 12 byte Uint8Array, or an integer","private":true}
 {"level":"error","message":"Sun Oct 20 2024 18:34:11 GMT+0300 (GMT+03:00)-Bad Request Error-BSONError: input must be a 24 character hex string, 12 byte Uint8Array, or an integer","private":true}
+{"level":"error","message":"Sun Oct 20 2024 21:15:15 GMT+0300 (GMT+03:00)-Bad Request Error-Duplicated email in body.","private":true}
+{"level":"error","message":"Mon Oct 21 2024 19:01:19 GMT+0300 (GMT+03:00)-Bad Request Error-BSONError: input must be a 24 character hex string, 12 byte Uint8Array, or an integer","private":true}
+{"level":"error","message":"Mon Oct 21 2024 19:01:20 GMT+0300 (GMT+03:00)-Bad Request Error-BSONError: input must be a 24 character hex string, 12 byte Uint8Array, or an integer","private":true}
+{"level":"error","message":"Mon Oct 21 2024 19:01:20 GMT+0300 (GMT+03:00)-Bad Request Error-BSONError: input must be a 24 character hex string, 12 byte Uint8Array, or an integer","private":true}
+{"level":"error","message":"Mon Oct 21 2024 19:01:21 GMT+0300 (GMT+03:00)-Bad Request Error-BSONError: input must be a 24 character hex string, 12 byte Uint8Array, or an integer","private":true}
+{"level":"error","message":"Mon Oct 21 2024 19:01:21 GMT+0300 (GMT+03:00)-Bad Request Error-BSONError: input must be a 24 character hex string, 12 byte Uint8Array, or an integer","private":true}
+{"level":"error","message":"Mon Oct 21 2024 21:27:07 GMT+0300 (GMT+03:00)-Bad Request Error-Duplicated email in body.","private":true}
+{"level":"error","message":"Mon Oct 21 2024 21:27:08 GMT+0300 (GMT+03:00)-Bad Request Error-Duplicated email in body.","private":true}
+{"level":"error","message":"Mon Oct 21 2024 21:27:09 GMT+0300 (GMT+03:00)-Bad Request Error-Duplicated email in body.","private":true}
+{"level":"error","message":"Mon Oct 21 2024 21:27:37 GMT+0300 (GMT+03:00)-Bad Request Error-Duplicated email in body.","private":true}
+{"level":"error","message":"Mon Oct 21 2024 21:27:37 GMT+0300 (GMT+03:00)-Bad Request Error-Duplicated email in body.","private":true}
+{"level":"error","message":"Mon Oct 21 2024 21:27:38 GMT+0300 (GMT+03:00)-Bad Request Error-Duplicated email in body.","private":true}
+{"level":"error","message":"Mon Oct 21 2024 21:27:39 GMT+0300 (GMT+03:00)-Bad Request Error-Duplicated email in body.","private":true}
+{"level":"error","message":"Mon Oct 21 2024 21:27:40 GMT+0300 (GMT+03:00)-Bad Request Error-Duplicated email in body.","private":true}
+{"level":"error","message":"Mon Oct 21 2024 21:27:40 GMT+0300 (GMT+03:00)-Bad Request Error-Duplicated email in body.","private":true}
+{"level":"error","message":"Mon Oct 21 2024 21:27:41 GMT+0300 (GMT+03:00)-Bad Request Error-Duplicated email in body.","private":true}
+{"level":"error","message":"Mon Oct 21 2024 21:27:42 GMT+0300 (GMT+03:00)-Bad Request Error-Duplicated email in body.","private":true}
+{"level":"error","message":"Mon Oct 21 2024 21:27:42 GMT+0300 (GMT+03:00)-Bad Request Error-Duplicated email in body.","private":true}
+{"level":"error","message":"Mon Oct 21 2024 21:27:43 GMT+0300 (GMT+03:00)-Bad Request Error-Duplicated email in body.","private":true}
+{"level":"error","message":"Mon Oct 21 2024 21:27:43 GMT+0300 (GMT+03:00)-Bad Request Error-Duplicated email in body.","private":true}
+{"level":"error","message":"Mon Oct 21 2024 21:27:44 GMT+0300 (GMT+03:00)-Bad Request Error-Duplicated email in body.","private":true}
+{"level":"error","message":"Mon Oct 21 2024 21:27:44 GMT+0300 (GMT+03:00)-Bad Request Error-Duplicated email in body.","private":true}

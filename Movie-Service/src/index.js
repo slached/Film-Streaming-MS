@@ -4,12 +4,12 @@ require("colors");
 const express = require("express");
 const cors = require("cors");
 const { rateLimit } = require("express-rate-limit");
-const helmet = require("helmet");
 const app = express();
+const helmet = require("helmet");
 
 const { PORT } = require("./config");
 const { DatabaseConnection } = require("./database");
-const { CustomerController } = require("./api");
+const { MovieController } = require("./api");
 const { initializeRedis, connectToRabbit } = require("./util");
 const { handleError } = require("./util/errors/ErrorHandler");
 
@@ -24,7 +24,7 @@ const StartServer = async () => {
     limit: 100, // max 100 ping for each IP
     message: {
       message: "Too many request",
-      wait_time: "1 minute",
+      timeout: "1 minute",
     },
     standardHeaders: "draft-7", // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
@@ -54,7 +54,7 @@ const StartServer = async () => {
       console.log(err);
     });
 
-  // initialize RabbitMQ
+  // initialize rabbitMQ
   const channel = await connectToRabbit()
     .then((res) => {
       console.log("RabbitMQ connection success.".cyan.underline.bold);
@@ -65,7 +65,7 @@ const StartServer = async () => {
     });
 
   // Controller
-  CustomerController(app, channel);
+  MovieController(app, channel);
 
   // Error Handler
   app.use(handleError);

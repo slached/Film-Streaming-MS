@@ -1,13 +1,11 @@
 const Redis = require("ioredis");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const amqp = require("amqplib");
+const jwt = require("jsonwebtoken");
 const uuid = require("uuid");
 
 const DEFAULT_EXPIRATION = 60 * 60;
 const { JWT_SECRET, RABBIT_CONNECTION_URI, RPC_QUEUE_NAME } = require("../config");
-const { BadContentError, InternalServerError } = require("./errors/app-errors");
-
+const { BadContentError } = require("./errors/app-errors");
 let redisClient;
 
 const initializeRedis = () => {
@@ -32,22 +30,6 @@ const initializeRedis = () => {
       console.log("Redis connection has ended");
     });
   });
-};
-
-const generateSalt = async () => {
-  return await bcrypt.genSalt();
-};
-
-const generateEncryptedData = async (data, salt) => {
-  return await bcrypt.hash(data, salt);
-};
-
-const verifyData = async (data, encrypted) => {
-  return await bcrypt.compare(data, encrypted);
-};
-
-const generateJWT = async (payload) => {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: "30d" });
 };
 
 const validateJWT = async (req) => {
@@ -145,10 +127,6 @@ const Client = async (channel, RPC_QUEUE_NAME, payload) => {
 
 module.exports = {
   initializeRedis,
-  generateSalt,
-  generateEncryptedData,
-  verifyData,
-  generateJWT,
   validateJWT,
   setOrGetFromRedis,
   updateCache,

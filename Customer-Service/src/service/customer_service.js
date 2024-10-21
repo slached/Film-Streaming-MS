@@ -85,8 +85,33 @@ class CustomerService {
     return await UploadToS3(user._id, image.buffer, image.mimetype);
   };
 
-  GetUserImageFromS3 = async (user) => {    
+  GetUserImageFromS3 = async (user) => {
     return await GetAllS3Data(user._id);
+  };
+
+  AddToWatchHistory = async (_id, movieId) => {
+    const newMovieHistoryData = {
+      movieId: movieId,
+      watchedAt: new Date(),
+      progress: 0,
+    };
+
+    const repoCall = await this.CustomerRepository.insertToWatchHistory(_id, newMovieHistoryData);
+
+    if (repoCall.acknowledged) {
+      return { message: "Movie added into watch history." };
+    } else {
+      throw new BadContentError("The insertion not acknowledged");
+    }
+  };
+
+  GetWatchHistoryByMovieId = async (movieId) => {
+    return await this.CustomerRepository.findWatchHistoryMovieById(movieId);
+  };
+
+  DeleteFromWatchHistory = async (_id, movieId) => {
+    await this.CustomerRepository.removeFromWatchHistory(_id, movieId);
+    return { message: "All watch history of this movie deleted. " };
   };
 }
 module.exports = CustomerService;
