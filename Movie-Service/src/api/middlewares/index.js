@@ -1,6 +1,7 @@
 module.exports = {
   Auth: require("./auth"),
-  MulterSingle: require("./multer"),
+  MulterMemory: require("./multerMemory"),
+  MulterDisk: require("./multerDisk"),
   //Validators
   MovieDetailValidator: require("./movie_validation").movieDetailValidator,
   MultipleMovieDetailValidator: require("./movie_validation").multipleMovieDetailValidator,

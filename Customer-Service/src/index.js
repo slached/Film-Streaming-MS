@@ -5,8 +5,9 @@ const express = require("express");
 const cors = require("cors");
 const { rateLimit } = require("express-rate-limit");
 const helmet = require("helmet");
-const app = express();
+const morgan = require("morgan");
 
+const app = express();
 const { PORT } = require("./config");
 const { DatabaseConnection } = require("./database");
 const { CustomerController } = require("./api");
@@ -30,6 +31,7 @@ const StartServer = async () => {
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
   });
 
+  // middlewares
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
   app.use(cors());
@@ -44,6 +46,7 @@ const StartServer = async () => {
       },
     })
   );
+  app.use(morgan("dev"))
 
   // initialize redis
   await initializeRedis()

@@ -1,6 +1,6 @@
 const MovieService = require("../service/movie_service");
 const { STATUS_CODES } = require("../util/errors/app-errors");
-const { Auth, MovieDetailValidator, MultipleMovieDetailValidator, UpdateMovieValidator } = require("./middlewares");
+const { Auth, MovieDetailValidator, MultipleMovieDetailValidator, UpdateMovieValidator, MulterMemory, MulterDisk } = require("./middlewares");
 const { Server } = require("../util");
 
 module.exports = async (app, channel) => {
@@ -41,6 +41,15 @@ module.exports = async (app, channel) => {
       // first validate body
       const body = req.body;
       return res.status(STATUS_CODES.OK).json(await movieService.CreateMultipleMovie(body));
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.post("/upload", Auth, MulterDisk.single("movie"), async (req, res, next) => {
+    try {
+      console.log(req.file);
+      return res.status(STATUS_CODES.OK).json("ok");
     } catch (error) {
       next(error);
     }

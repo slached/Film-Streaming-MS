@@ -7,10 +7,10 @@ const {
   DeleteUserValidator,
   UpdateUserValidator,
   UploadS3Validator,
-  MulterSingle,
+  MulterMemory,
   DeleteAndInsertToWatchHistoryValidator,
 } = require("./middlewares");
-const { STATUS_CODES, BadContentError, NotFoundError } = require("../util/errors/app-errors");
+const { STATUS_CODES, NotFoundError } = require("../util/errors/app-errors");
 const { Client, Server } = require("../util");
 
 module.exports = async (app, channel) => {
@@ -96,7 +96,7 @@ module.exports = async (app, channel) => {
     }
   });
 
-  app.post("/uploadProfileImage", Auth, MulterSingle, UploadS3Validator, async (req, res, next) => {
+  app.post("/uploadProfileImage", Auth, MulterMemory.single("file"), UploadS3Validator, async (req, res, next) => {
     try {
       // first validate the body
       const user = req.user;

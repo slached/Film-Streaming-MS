@@ -1,6 +1,7 @@
 module.exports = {
   Auth: require("./auth"),
-  MulterSingle: require("./multer"),
+  MulterMemory: require("./multerMemory"),
+  MulterDisk: require("./multerDisk"),
   SignUpValidator: require("./customer_validation").singUpValidator,
   SignInValidator: require("./customer_validation").singInValidator,
   MultipleUserCreateValidator: require("./customer_validation").multipleUserCreateValidator,

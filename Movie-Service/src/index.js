@@ -5,6 +5,7 @@ const express = require("express");
 const cors = require("cors");
 const { rateLimit } = require("express-rate-limit");
 const app = express();
+const morgan = require("morgan");
 const helmet = require("helmet");
 
 const { PORT } = require("./config");
@@ -17,7 +18,13 @@ const StartServer = async () => {
   const port = PORT || 5000;
 
   // Db connection
-  await DatabaseConnection();
+  await DatabaseConnection()
+    .then((res) => {
+      console.log(res.blue.underline.bold);
+    })
+    .catch((err) => {
+      console.log(err.message.red.bold);
+    });
 
   const limiter = rateLimit({
     windowMs: 1 * 60 * 1000, // 1 min
@@ -44,6 +51,7 @@ const StartServer = async () => {
       },
     })
   );
+  app.use(morgan("dev"));
 
   // initialize redis
   await initializeRedis()
